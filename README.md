@@ -2,7 +2,7 @@
 Intended as a bare-bones for use on TTGO T-Beam, due to other SPI pins being already allocated to on-board devices.
 
 ```
-MISO    33
+MISO    25
 MOSI    13
 SCK     14
 SS      2

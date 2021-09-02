@@ -15,7 +15,7 @@ diff -Naru '--exclude=.git' /tmp/USB_Host_Shield_2.0/avrpins.h ./avrpins.h
 +// MAKE_PIN(P18, 18); // SCK
 +// MAKE_PIN(P5, 5); // SS
 +// MAKE_PIN(P17, 17); // INT
-+MAKE_PIN(P33, 33); // MISO
++MAKE_PIN(P25, 25); // MISO
 +MAKE_PIN(P13, 13); // MOSI
 +MAKE_PIN(P14, 14); // SCK
 +MAKE_PIN(P2, 2); // SS
@@ -45,7 +45,7 @@ diff -Naru '--exclude=.git' /tmp/USB_Host_Shield_2.0/usbhost.h ./usbhost.h
          static void init() {
 -                USB_SPI.begin(); // The SPI library with transaction will take care of setting up the pins - settings is set in beginTransaction()
 +                // USB_SPI.begin(); // The SPI library with transaction will take care of setting up the pins - settings is set in beginTransaction()
-+                USB_SPI.begin(14, 33, 13, 2); // SCLK, MISO, MOSI, SS
++                USB_SPI.begin(14, 25, 13, 2); // SCLK, MISO, MOSI, SS
                  SPI_SS::SetDirWrite();
                  SPI_SS::Set();
          }
@@ -55,7 +55,7 @@ diff -Naru '--exclude=.git' /tmp/USB_Host_Shield_2.0/usbhost.h ./usbhost.h
  #elif defined(ESP32)
 -typedef SPi< P18, P23, P19, P5 > spi;
 +// typedef SPi< P18, P23, P19, P5 > spi;
-+typedef SPi< P14, P13, P33, P2 > spi; // SCK, MOSI, MISO, SS
++typedef SPi< P14, P13, P25, P2 > spi; // SCK, MOSI, MISO, SS
  #elif defined(ARDUINO_NRF52840_FEATHER)
  typedef SPi< P26, P25, P24, P5 > spi;
  #else
