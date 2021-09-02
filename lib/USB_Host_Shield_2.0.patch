@@ -1,0 +1,61 @@
+diff -Naru '--exclude=.git' /tmp/USB_Host_Shield_2.0/avrpins.h ./avrpins.h
+--- /a/USB_Host_Shield_2.0/avrpins.h	2021-08-23 22:21:37.392034503 +1000
++++ ./avrpins.h	2021-08-23 23:20:48.455407589 +1000
+@@ -1620,11 +1620,16 @@
+ MAKE_PIN(P3, 3); // RX0
+ MAKE_PIN(P21, 21); // SDA
+ MAKE_PIN(P22, 22); // SCL
+-MAKE_PIN(P19, 19); // MISO
+-MAKE_PIN(P23, 23); // MOSI
+-MAKE_PIN(P18, 18); // SCK
+-MAKE_PIN(P5, 5); // SS
+-MAKE_PIN(P17, 17); // INT
++// MAKE_PIN(P19, 19); // MISO
++// MAKE_PIN(P23, 23); // MOSI
++// MAKE_PIN(P18, 18); // SCK
++// MAKE_PIN(P5, 5); // SS
++// MAKE_PIN(P17, 17); // INT
++MAKE_PIN(P33, 33); // MISO
++MAKE_PIN(P13, 13); // MOSI
++MAKE_PIN(P14, 14); // SCK
++MAKE_PIN(P2, 2); // SS
++MAKE_PIN(P32, 32); // INT
+ 
+ #endif
+ 
+diff -Naru '--exclude=.git' /tmp/USB_Host_Shield_2.0/UsbCore.h ./UsbCore.h
+--- /a/USB_Host_Shield_2.0/UsbCore.h	2021-08-23 22:21:37.392034503 +1000
++++ ./UsbCore.h	2021-08-23 23:20:56.727289153 +1000
+@@ -49,7 +49,8 @@
+ #elif defined(ESP8266)
+ typedef MAX3421e<P15, P5> MAX3421E; // ESP8266 boards
+ #elif defined(ESP32)
+-typedef MAX3421e<P5, P17> MAX3421E; // ESP32 boards
++// typedef MAX3421e<P5, P17> MAX3421E; // ESP32 boards
++typedef MAX3421e<P2, P32> MAX3421E; // ESP32 boards // SS, INT
+ #elif (defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284P__))
+ typedef MAX3421e<Pb4, Pb3> MAX3421E; // Sanguino
+ #else
+diff -Naru '--exclude=.git' /tmp/USB_Host_Shield_2.0/usbhost.h ./usbhost.h
+--- /a/USB_Host_Shield_2.0/usbhost.h	2021-08-23 22:21:37.404034321 +1000
++++ ./usbhost.h	2021-08-23 23:21:06.343152379 +1000
+@@ -48,7 +48,8 @@
+         }
+ #elif defined(SPI_HAS_TRANSACTION)
+         static void init() {
+-                USB_SPI.begin(); // The SPI library with transaction will take care of setting up the pins - settings is set in beginTransaction()
++                // USB_SPI.begin(); // The SPI library with transaction will take care of setting up the pins - settings is set in beginTransaction()
++                USB_SPI.begin(14, 33, 13, 2); // SCLK, MISO, MOSI, SS
+                 SPI_SS::SetDirWrite();
+                 SPI_SS::Set();
+         }
+@@ -119,7 +120,8 @@
+ #elif defined(ESP8266)
+ typedef SPi< P14, P13, P12, P15 > spi;
+ #elif defined(ESP32)
+-typedef SPi< P18, P23, P19, P5 > spi;
++// typedef SPi< P18, P23, P19, P5 > spi;
++typedef SPi< P14, P13, P33, P2 > spi; // SCK, MOSI, MISO, SS
+ #elif defined(ARDUINO_NRF52840_FEATHER)
+ typedef SPi< P26, P25, P24, P5 > spi;
+ #else
