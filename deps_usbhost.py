@@ -19,8 +19,7 @@ if not isdir(lib_path):
 patchflag_path = join(env['PROJECT_DIR'], "lib", lib_name+".patch.done")
 
 if not isfile(patchflag_path):
-    env.Execute("cd %s; patch --forward --batch --strip=0 --input=../%s --no-backup-if-mismatch --reject-file=-" % (lib_path, lib_name+".patch"))
-    env.Execute("touch %s" % (patchflag_path))
+    env.Execute("cd %s; patch --forward --batch --strip=0 --input=../%s --no-backup-if-mismatch --reject-file=- > %s" % (lib_path, lib_name+".patch", patchflag_path))
 
 # reverse: env.Execute("cd %s; patch --reverse --batch --strip=0 --input=../%s --no-backup-if-mismatch --reject-file=-" % (lib_path, lib_name+".patch"))
 
